@@ -28,9 +28,11 @@ public class CurtainFrame extends JFrame
   // our actions
   private Action fillWindowAction;
   private Action chooseColorAction;
+  private Action newWindowAction;
   
   private KeyStroke fillWindowKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, Event.META_MASK);
   private KeyStroke chooseColorKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.META_MASK);
+  private KeyStroke newWindowKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.META_MASK);
   
   private Hyde mainController;
   private Hyde2 mainController2;
@@ -38,22 +40,22 @@ public class CurtainFrame extends JFrame
   
   public CurtainFrame(Hyde hyde, JComponent component, Color defaultColor, Hyde2 hyde2)
   {
-    this.mainController = hyde;
-    this.mainController2 = hyde2;
-    this.component = component;
-    thisFrame = this;
-    this.setResizable(false);
-    this.setUndecorated(true);
-    
-    // TODO this is a little mucked up, having this frame talk to a controller like this
-    this.currentColor = defaultColor;
-    colorChooserController = new ColorChooserController(this);    
-    setAllColors(component, currentColor);
-
-    this.getContentPane().add(component);
-    
-    addActions();
-    this.setJMenuBar(createMenuBar());
+      this.mainController = hyde;
+      this.mainController2 = hyde2;
+      this.component = component;
+      thisFrame = this;
+      this.setResizable(false);
+      this.setUndecorated(true);
+      
+      // TODO this is a little mucked up, having this frame talk to a controller like this
+      this.currentColor = defaultColor;
+      colorChooserController = new ColorChooserController(this);    
+      setAllColors(component, currentColor);
+  
+      this.getContentPane().add(component);
+      
+      addActions();
+      this.setJMenuBar(createMenuBar());
   }
 
   /**
@@ -62,53 +64,58 @@ public class CurtainFrame extends JFrame
    */
   private void setAllColors(JComponent component, Color color)
   {
-    this.getContentPane().setBackground(color);
-    component.setBackground(color);
-    this.setBackground(color);
+      this.getContentPane().setBackground(color);
+      component.setBackground(color);
+      this.setBackground(color);
   }
 
   private void addActions()
   {
-    fillWindowAction = new FillWindowAction(this, "Re-Fill Window", fillWindowKeystroke);
-    component.getInputMap().put(fillWindowKeystroke, "fillWindow");
-    component.getActionMap().put("fillWindow", fillWindowAction);
-
-    chooseColorAction = new ChooseColorAction(this, "Choose Color", chooseColorKeystroke);
-    component.getInputMap().put(chooseColorKeystroke, "chooseColor");
-    component.getActionMap().put("chooseColor", chooseColorAction);
-
+      fillWindowAction = new FillWindowAction(this, "Re-Fill Window", fillWindowKeystroke);
+      component.getInputMap().put(fillWindowKeystroke, "fillWindow");
+      component.getActionMap().put("fillWindow", fillWindowAction);
+  
+      chooseColorAction = new ChooseColorAction(this, "Choose Color", chooseColorKeystroke);
+      component.getInputMap().put(chooseColorKeystroke, "chooseColor");
+      component.getActionMap().put("chooseColor", chooseColorAction);
+  
+      newWindowAction = new NewWindowAction(this, "New Window", newWindowKeystroke);
+      component.getInputMap().put(newWindowKeystroke, "newWindow");
+      component.getActionMap().put("newWindow", newWindowAction);
   }
   
   private JMenuBar createMenuBar()
   {
-    // create the menubar
-    JMenuBar menuBar = new JMenuBar();
-
-    // create menu
-    JMenu actionsMenu = new JMenu("Actions");
-    
-    // create menu items
-    JMenuItem fillWindowMenuItem = new JMenuItem(fillWindowAction);
-    JMenuItem chooseColorMenuItem = new JMenuItem(chooseColorAction);
-
-    // add items to menu
-    actionsMenu.add(fillWindowMenuItem);
-    actionsMenu.add(chooseColorMenuItem);
-
-    // add the menus to the menubar
-    menuBar.add(actionsMenu);
-
-    return menuBar;
+      // create the menubar
+      JMenuBar menuBar = new JMenuBar();
+  
+      // create menu
+      JMenu actionsMenu = new JMenu("Actions");
+      
+      // create menu items
+      JMenuItem newWindowMenuItem = new JMenuItem(newWindowAction);
+      JMenuItem fillWindowMenuItem = new JMenuItem(fillWindowAction);
+      JMenuItem chooseColorMenuItem = new JMenuItem(chooseColorAction);
+  
+      // add items to menu
+      actionsMenu.add(newWindowMenuItem);
+      actionsMenu.add(fillWindowMenuItem);
+      actionsMenu.add(chooseColorMenuItem);
+  
+      // add the menus to the menubar
+      menuBar.add(actionsMenu);
+  
+      return menuBar;
   }
   
   void doRefillScreenAction()
   {
-    // hide the frame
-    this.hideShield();
-    
-    // re-get the screen size, re-size the frame, re-display the frame;
-    // all of these happen in this method
-    this.display();
+      // hide the frame
+      this.hideShield();
+      
+      // re-get the screen size, re-size the frame, re-display the frame;
+      // all of these happen in this method
+      this.display();
   }
 
   public void display()
@@ -287,6 +294,11 @@ public class CurtainFrame extends JFrame
         thisFrame.setLocation(0,0);
       }
     });
+  }
+  
+  public void doNewWindowAction() {
+      CurtainFrame frame = new CurtainFrame(mainController, component, currentColor, mainController2);
+      frame.display();
   }
 
   public void doChooseColorAction()

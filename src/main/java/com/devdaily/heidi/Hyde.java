@@ -55,9 +55,6 @@ public class Hyde
   private static final String ABOUT_DIALOG_MESSAGE = "<html><center><p>Hyde, Version 1.1.0</p></center>\n\n"
     + "<center><p><a href=\"http://devdaily.com/hide-your-desktop\">http://devdaily.com/hide-your-desktop</a></p><center>\n";
 
-  // "please license" dialog stuff
-  private static final String LICENSE_DIALOG_TITLE = "Hyde";
-  
   // so we can share our events with other controllers
   public static final int SHOW_CURTAIN_EVENT   = 1;
   public static final int QUIT_CURTAIN_EVENT   = 2;
@@ -78,23 +75,7 @@ public class Hyde
   // TODO move this to a properties file or class
   private static final String FILE_PATH_SEPARATOR = System.getProperty("file.separator");
   private static final String USER_HOME_DIR = System.getProperty("user.home");
-
-  private static final String RELATIVE_SOUNDS_DIR_NAME = "Sounds";
   private static final String homeLibraryApplicationSupportDirname = "Library/Application Support/DevDaily/Hyde";
-  public  static final String CANON_SOUNDS_DIR = USER_HOME_DIR + FILE_PATH_SEPARATOR + homeLibraryApplicationSupportDirname 
-                                               + FILE_PATH_SEPARATOR + RELATIVE_SOUNDS_DIR_NAME;
-
-  // ------------------------------ LOGGING ---------------------------------//
-  // TODO move this to a properties file or class (though USER_HOME_DIR is dynamic)
-  //      these also vary by windows/mac
-  private static final String REL_LOGFILE_DIRECTORY = "Library/Logs/DevDaily/Hyde";
-  private static final String CANON_LOGFILE_DIR     = USER_HOME_DIR + FILE_PATH_SEPARATOR + REL_LOGFILE_DIRECTORY; 
-  private static final String CANON_DEBUG_FILENAME  = CANON_LOGFILE_DIR + FILE_PATH_SEPARATOR + "Hyde.log";
-  
-  // user can "touch" these files to force logging at these levels (only checks at startup)
-  private static final String DEBUG_LOG_FILENAME   = CANON_LOGFILE_DIR + FILE_PATH_SEPARATOR + "DEBUG";
-  private static final String WARNING_LOG_FILENAME = CANON_LOGFILE_DIR + FILE_PATH_SEPARATOR + "WARNING";
-  private static final String ERROR_LOG_FILENAME   = CANON_LOGFILE_DIR + FILE_PATH_SEPARATOR + "ERROR";
 
 
   public static void main(String[] args)
@@ -255,87 +236,6 @@ public class Hyde
   }
   
   
-  //---------------------------------------------------------------------------//
-  //                              SOUND STUFF                                  //
-  //---------------------------------------------------------------------------//
-  
-  public static boolean makeDirectory(String directoryName)
-  {
-    try
-    {
-      boolean result = (new File(directoryName)).mkdir();
-      return result;
-    }
-    catch (RuntimeException re)
-    {
-      // ignore exception
-      return false;
-    }
-  }
-
-  // TODO this was another late addition, primarily to support creation of the
-  //      new Sounds folder location
-  public static boolean makeDirectories(String directoryName)
-  {
-    try
-    {
-      boolean result = (new File(directoryName)).mkdirs();
-      return result;
-    }
-    catch (RuntimeException re)
-    {
-      // ignore exception
-      return false;
-    }
-  }
-
-
-  /**
-   * TODO If I port this to Windows, I need to use the different file chooser over there.
-   * TODO Also, see if Quaqua has a file chooser to use instead.
-   * 
-   * @param frame - parent frame
-   * @param dialogTitle - dialog title
-   * @param defaultDirectory - default directory
-   * @param fileType - something like "*.lic"
-   * @return Returns null if the user selected nothing, otherwise returns the canonical filename (directory + fileSep + filename).
-   */
-  String promptForFilenameWithFileDialog (Frame frame, String dialogTitle, String defaultDirectory, String fileType) 
-  {
-    FileDialog fd = new FileDialog(frame, dialogTitle, FileDialog.LOAD);
-    fd.setFile(fileType);
-    fd.setDirectory(defaultDirectory);
-    fd.setLocationRelativeTo(frame);
-    fd.setVisible(true);
-    String directory = fd.getDirectory();
-    String filename = fd.getFile();
-    if (directory == null || filename == null || directory.trim().equals("") || filename.trim().equals(""))
-    {
-      return null;
-    }
-    else
-    {
-      // this was not needed on mac os x:
-      //return directory + System.getProperty("file.separator") + filename;
-      return directory + filename;
-    }
-  }
-  
-  private void openUrlInBrowser(String url)
-  {
-    Runtime runtime = Runtime.getRuntime();
-    String[] args = { "osascript", "-e", "open location \"" + url + "\"" };
-    try
-    {
-      Process process = runtime.exec(args);
-    }
-    catch (IOException e)
-    {
-      // ignore this
-    }
-  }
-  
-
   /**
    * A simple method others can use to return focus back to the curtain
    * after they have done something like displaying a dialog.
