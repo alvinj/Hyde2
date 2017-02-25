@@ -49,6 +49,7 @@ public class CurtainFrame extends JFrame
       
       // TODO this is a little mucked up, having this frame talk to a controller like this
       currentColor = defaultColor;
+      //currentColor = new Color(60,60,60, 255);
       colorChooserController = new ColorChooserController(this);
       setAllColors(component, currentColor);
   

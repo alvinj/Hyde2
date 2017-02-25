@@ -19,14 +19,28 @@ import javax.swing.event.HyperlinkListener;
 import ch.randelshofer.quaqua.QuaquaManager;
 import com.apple.eawt.Application;
 
+
+
+
+
+
+
+/**
+ *
+ * NOTE: THIS CLASS IS BARELY USED ANY MORE.
+ * THE CORRECT NEW CLASS IS HYDE2. THE ONLY
+ * THING THIS CLASS DOES THAT I KNOW IF IS
+ * HANDLE THE COLOR CHANGING.
+ *
+ */
 public class Hyde
 {
   private CurtainFrame desktopCurtainFrame;
   private static final String APP_NAME = "Hyde";
   private JPanel curtainPanel = new JPanel();
-  
+
   private static final String DC_LICENSING_URL = "http://devdaily.com/hide-your-desktop";
-  
+
   private static final String ABOUT_DIALOG_MESSAGE = "<html><center><p>Hyde, Version 1.1.0</p></center>\n\n"
     + "<center><p><a href=\"http://devdaily.com/hide-your-desktop\">http://devdaily.com/hide-your-desktop</a></p><center>\n";
 
@@ -34,7 +48,7 @@ public class Hyde
   public static final int SHOW_CURTAIN_EVENT   = 1;
   public static final int QUIT_CURTAIN_EVENT   = 2;
   public static final int REFILL_CURTAIN_EVENT = 3;
-  
+
   // preferences stuff
   private Preferences preferences;
   private static String CURTAIN_R = "CURTAIN_R";
@@ -42,11 +56,11 @@ public class Hyde
   private static String CURTAIN_B = "CURTAIN_B";
   private static String CURTAIN_A = "CURTAIN_A";
   private Color currentColor;
-  
+
   // prefs - how many times the app has been started.
   // (changed this to a one-letter name b/c it shows up as text in the plist file)
   private static String NUM_USES_PREF = "C";
-  
+
   // TODO move this to a properties file or class
   private static final String FILE_PATH_SEPARATOR = System.getProperty("file.separator");
   private static final String USER_HOME_DIR = System.getProperty("user.home");
@@ -61,13 +75,13 @@ public class Hyde
   public Hyde()
   {
     dieIfNotRunningOnMacOsX();
-    
+
     configureForMacOSX();
-    
+
     // get default color from preferences
     connectToPreferences();
     getDefaultColor();
-    
+
     desktopCurtainFrame = new CurtainFrame(this, curtainPanel, currentColor, null);
     DragWindowListener mml = new DragWindowListener(curtainPanel);
     curtainPanel.addMouseListener(mml);
@@ -88,18 +102,18 @@ public class Hyde
         {
           // TODO log this? where does system err output on mac os x go?
         }
-        
+
         desktopCurtainFrame.display();
       }
     });
-    
+
     // verify the license.
     // this makes a callback to handleVerifyLicenseFailedEvent() if the verification fails.
     // commenting this out on August 5, 2010. App is now free.
     //licenseController.verifyLicense();
     this.giveFocusBackToCurtain();
   }
-  
+
   /**
    * If the app is not running on mac os x, die right away.
    */
@@ -107,14 +121,14 @@ public class Hyde
   {
 //    boolean mrjVersionExists = System.getProperty("mrj.version") != null;
 //    boolean osNameExists = System.getProperty("os.name").startsWith("Mac OS");
-//    
+//
 //    if ( !mrjVersionExists || !osNameExists)
 //    {
 //      System.err.println("Not running on a Mac OS X system.");
 //      System.exit(1);
 //    }
   }
-  
+
 
   /**
    * Do everything we need to configure the app for Mac OS X systems.
@@ -126,34 +140,34 @@ public class Hyde
     System.setProperty("apple.laf.useScreenMenuBar", "true");
     System.setProperty("com.apple.mrj.application.apple.menu.about.name", APP_NAME);
 
-    // create an instance of the Mac Application class, so i can handle the 
+    // create an instance of the Mac Application class, so i can handle the
     // mac quit event with the Mac ApplicationAdapter
     Application macApplication = Application.getApplication();
     MyApplicationAdapter macAdapter = new MyApplicationAdapter(this);
     macApplication.addApplicationListener(macAdapter);
-    
+
     // must enable the preferences option manually
     macApplication.setEnabledPreferencesMenu(true);
-    
+
     // use these quaqua components
     Set includes = new HashSet();
     includes.add("ColorChooser");
     //includes.add("Table");
     QuaquaManager.setIncludedUIs(includes);
-    
+
     // this did not work to get tables striped
     //UIManager.put("Table.alternateRowColor", UIManager.getColor("Table.focusCellForeground"));
 
   }
-  
+
   private int getAndUpdateUsageCounter()
   {
     // get the number of times the app has been accessed already
     int numUses = preferences.getInt(NUM_USES_PREF, 0);
-    
+
     // update the number of uses by 1
     preferences.putInt(NUM_USES_PREF, numUses+1);
-    
+
     return numUses;
   }
 
@@ -161,7 +175,7 @@ public class Hyde
   {
     preferences = Preferences.userNodeForPackage(this.getClass());
   }
-  
+
   /**
    * Get the default color from the Preferences, or default to black.
    */
@@ -177,7 +191,7 @@ public class Hyde
     // THIS IS NO LONGER USED. SEE HYDE2.SCALA.
     currentColor = new Color(128,128,128, 255);
   }
-  
+
   public void updateCurrentColor(Color newColor)
   {
     currentColor = newColor;
@@ -188,7 +202,7 @@ public class Hyde
     preferences.putInt(CURTAIN_B, currentColor.getBlue());
     preferences.putInt(CURTAIN_A, currentColor.getAlpha());
   }
-  
+
   public Color getCurrentColor()
   {
     return currentColor;
@@ -208,13 +222,13 @@ public class Hyde
   {
     desktopCurtainFrame.doQuitAnimationAndQuit();
   }
-  
+
   public CurtainFrame getDesktopCurtainFrame()
   {
     return this.desktopCurtainFrame;
   }
-  
-  
+
+
   /**
    * A simple method others can use to return focus back to the curtain
    * after they have done something like displaying a dialog.
@@ -248,7 +262,7 @@ public class Hyde
     // add the hyperlink listener so the user can click my link
     // and go right to the website
     editor.addHyperlinkListener(new HyperlinkListener() {
-    public void hyperlinkUpdate(HyperlinkEvent hev) 
+    public void hyperlinkUpdate(HyperlinkEvent hev)
     {
       if (hev.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
       {
