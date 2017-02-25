@@ -1,5 +1,9 @@
 #!/bin/sh
 
+#CLASSPATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home:$CLASSPATH
+CLASSPATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/rt.jar:$CLASSPATH
+export CLASSPATH
+
 # remove the old log file, if it exists
 rm log.out 2> /dev/null
 

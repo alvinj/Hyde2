@@ -48,8 +48,8 @@ public class CurtainFrame extends JFrame
       this.setUndecorated(true);
       
       // TODO this is a little mucked up, having this frame talk to a controller like this
-      this.currentColor = defaultColor;
-      colorChooserController = new ColorChooserController(this);    
+      currentColor = defaultColor;
+      colorChooserController = new ColorChooserController(this);
       setAllColors(component, currentColor);
   
       this.getContentPane().add(component);

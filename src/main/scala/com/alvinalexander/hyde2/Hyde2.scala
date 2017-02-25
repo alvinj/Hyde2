@@ -12,8 +12,7 @@ import javax.swing.JPanel
 object Hyde2 extends App {
 
     new Hyde2
-
-    def getDefaultColor: Color =  new Color(0, 0, 0, 255)
+    def getDefaultColor: Color = new Color(60,60,60,255)
 
 }
 

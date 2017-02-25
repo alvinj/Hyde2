@@ -2,47 +2,22 @@ package com.devdaily.heidi;
 
 import java.awt.Color;
 
-import java.awt.FileDialog;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.prefs.Preferences;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 import ch.randelshofer.quaqua.QuaquaManager;
 import com.apple.eawt.Application;
-import com.apple.eawt.ApplicationEvent;
 
 public class Hyde
 {
@@ -192,11 +167,15 @@ public class Hyde
    */
   private void getDefaultColor()
   {
-    int r = preferences.getInt(CURTAIN_R, 0);
-    int g = preferences.getInt(CURTAIN_G, 0);
-    int b = preferences.getInt(CURTAIN_B, 0);
-    int a = preferences.getInt(CURTAIN_A, 255);
-    currentColor = new Color(r,g,b,a);
+//    int r = preferences.getInt(CURTAIN_R, 55);
+//    int g = preferences.getInt(CURTAIN_G, 55);
+//    int b = preferences.getInt(CURTAIN_B, 55);
+//    int a = preferences.getInt(CURTAIN_A, 255);
+//    currentColor = new Color(r,g,b,a);
+    // override preferences
+
+    // THIS IS NO LONGER USED. SEE HYDE2.SCALA.
+    currentColor = new Color(128,128,128, 255);
   }
   
   public void updateCurrentColor(Color newColor)

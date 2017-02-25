@@ -8,6 +8,14 @@ and you don't want to see your messy desktop behind it.
 That's all this application does.
 
 
+Compiling
+---------
+
+Feb., 2017: I could not get SBT to compile the project properly until I copied 
+*rt.jar* into the *lib* folder. I didn't investigate why, but the compilation 
+kept failing on *com.apple.eawt* errors until I did that.
+
+
 Status
 ------
 

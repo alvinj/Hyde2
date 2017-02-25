@@ -1,6 +1,5 @@
 package com.devdaily.heidi;
 
-import javax.swing.JOptionPane;
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
 
